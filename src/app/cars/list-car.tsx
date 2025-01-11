@@ -14,7 +14,6 @@ export function Component() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [carEdit, setCarEdit] = useState<Car | undefined>(undefined);
-  const [selectedCars, setSelectedCars] = useState<string[]>([]);
 
   const filteredCars = useMemo(() => {
     return data?.filter((car) =>
