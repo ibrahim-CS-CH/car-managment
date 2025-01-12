@@ -25,10 +25,6 @@ export default function CarItem({
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: 2,
-        marginBottom: 2,
-        boxShadow: 2,
-        borderRadius: "16px",
       }}>
       <Checkbox
         checked={selectedCars.includes(car.id)}

@@ -1,14 +1,27 @@
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+
 import { appRoutes } from "@/constants/app-routes";
 import { useCars, useDeleteCars } from "@/lib/react-query/car-query";
 import CarItem from "./components/car-item";
 import EditCar from "./components/edit-car";
+import DeleteConfimation from "./components/delete-confimation";
 
 export function Component() {
   const [orderBy, setOrderBy] = useState<"asc" | "desc">("desc");
@@ -21,6 +34,7 @@ export function Component() {
   const [open, setOpen] = useState(false);
   const [carEdit, setCarEdit] = useState<Car | undefined>(undefined);
   const [selectedCars, setSelectedCars] = useState<string[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const filteredCars = useMemo(() => {
     return data?.filter((car) =>
@@ -39,6 +53,7 @@ export function Component() {
         onSuccess: () => {
           toast.success("Selected cars deleted successfully!");
           setSelectedCars([]);
+          setIsDialogOpen(false);
         },
         onError: (error: any) => {
           console.error("Error deleting cars:", error);
@@ -55,6 +70,7 @@ export function Component() {
       setSelectedCars((prev) => [...prev, carId]);
     }
   };
+
   const toggleSortOrder = () => {
     setOrderBy((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
@@ -99,26 +115,39 @@ export function Component() {
           }}>
           Total: {filteredCars?.length}
         </Typography>
+
         {selectedCars.length > 0 && (
           <IconButton
             aria-label="Delete"
             title="Delete"
             color="error"
-            onClick={handleDelete}>
+            onClick={() => {
+              setIsDialogOpen(true);
+            }}>
             <DeleteIcon />
           </IconButton>
         )}
       </Box>
-      <Button onClick={toggleSortOrder}>
-        Sort {orderBy === "asc" ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
-      </Button>
+
+      {filteredCars?.length ? (
+        <Button onClick={toggleSortOrder}>
+          Sort {orderBy === "asc" ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+        </Button>
+      ) : null}
+
       <Box>
         {filteredCars?.length ? (
           filteredCars.map((car) => (
             <Box
               key={car.id}
               sx={{
-                backgroundColor: carEdit?.id === car.id ? "lightgray" : "",
+                padding: 2,
+                marginBottom: 2,
+                boxShadow: 2,
+                borderRadius: "16px",
+                backgroundColor: selectedCars.includes(car.id)
+                  ? "lightgray"
+                  : "",
               }}>
               <CarItem
                 car={car}
@@ -148,6 +177,12 @@ export function Component() {
           refetch={refetch}
         />
       )}
+
+      <DeleteConfimation
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        handleDelete={handleDelete}
+      />
     </Box>
   );
 }

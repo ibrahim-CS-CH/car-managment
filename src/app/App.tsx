@@ -24,7 +24,6 @@ export default function App() {
                     element: <Navigate to={appRoutesDefinition.cars.root} />,
                   },
                   carsConfig.routes,
-                  // companiesConfig.routes,
                 ],
               },
 

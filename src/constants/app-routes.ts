@@ -5,7 +5,7 @@ export const appRoutes = {
   car: {
     root: appRoutesDefinition.cars.root,
     add: appRoutesDefinition.cars.add,
-    post: (carId: string | number) => {
+    post: (carId: string) => {
       return appRoutesDefinition.cars.car.replace(":carId", `${carId}`);
     },
   },
