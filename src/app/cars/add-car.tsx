@@ -61,6 +61,7 @@ export function Component() {
             textFieldProps={{
               label: "carModel",
               disabled: isPending,
+              sx: { width: "100%" },
             }}
           />
           <CustomTextField
@@ -72,6 +73,7 @@ export function Component() {
               label: "price",
               type: "number",
               disabled: isPending,
+              sx: { width: "100%" },
             }}
           />
         </Spacing>
@@ -121,8 +123,10 @@ export function Component() {
         }}
         type="submit"
         disabled={isPending}
+        color="primary"
+        variant="contained"
         startIcon={isPending && <CircularProgress size={14} />}>
-        {isPending ? "Adding" : "Add"}
+        {isPending ? "Adding car" : "Add car"}
       </Button>
     </form>
   );

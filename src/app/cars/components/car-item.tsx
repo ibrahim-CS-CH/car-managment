@@ -1,13 +1,24 @@
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Checkbox, IconButton, Tooltip, Typography } from "@mui/material";
 
 export default function CarItem({
   car,
   onEdit,
+  onSelect,
+  selectedCars,
 }: {
   car: Car;
   onEdit: (carId: string) => void;
+  onSelect: (carId: string, remove: boolean) => void;
+  selectedCars: string[];
 }) {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      onSelect(car.id, true);
+    } else {
+      onSelect(car.id, false);
+    }
+  };
   return (
     <Box
       sx={{
@@ -19,6 +30,12 @@ export default function CarItem({
         boxShadow: 2,
         borderRadius: "16px",
       }}>
+      <Checkbox
+        checked={selectedCars.includes(car.id)}
+        onChange={handleCheckboxChange}
+        color="primary"
+        size="small"
+      />
       <Box sx={{ flexGrow: 1 }}>
         <Typography
           variant="h6"
@@ -30,7 +47,6 @@ export default function CarItem({
       <Tooltip title="Edit">
         <IconButton
           aria-label="edit"
-          title="Edit"
           color="primary"
           onClick={() => onEdit(car.id)}>
           <EditIcon />

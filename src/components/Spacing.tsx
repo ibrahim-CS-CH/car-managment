@@ -29,7 +29,7 @@ const Spacing: FC<SpacingProps> = ({ children }) => {
           xs: "block",
         },
         justifyContent: "space-between",
-        alignItems: "flex-start",
+        alignItems: "center",
       }}>
       {renderChildren}
     </Box>

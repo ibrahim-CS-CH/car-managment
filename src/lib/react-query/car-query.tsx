@@ -2,20 +2,26 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   addCarToLocalStorage,
-  deleteCarFromLocalStorage,
   getCarsFromLocalStorage,
+  saveCarsToLocalStorage,
   updateCarInLocalStorage,
 } from "@/api/local-storage.api";
 
-export const useCars = () => {
+export const useCars = (
+  params: { orderBy?: "asc" | "desc" } = { orderBy: "desc" }
+) => {
+  const { orderBy = "desc" } = params;
+
   return useQuery({
-    queryKey: ["cars"],
+    queryKey: ["cars", params],
     queryFn: getCarsFromLocalStorage,
     select: (data) => {
       return data.sort((a, b) => {
         const timestampA = parseInt(a.id.split("-")[0]);
         const timestampB = parseInt(b.id.split("-")[0]);
-        return timestampB - timestampA;
+        return orderBy === "asc"
+          ? timestampA - timestampB
+          : timestampB - timestampA;
       });
     },
   });
@@ -30,7 +36,7 @@ export const useAddCar = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["addCars"], // Refetch the "cars" query after the mutation
+        queryKey: ["cars"],
       });
     },
     onError: (error) => {
@@ -47,16 +53,21 @@ export const useUpdateCar = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["updateCar"],
+        queryKey: ["cars"],
       });
     },
   });
 };
 
-export const useDeleteCar = () => {
+export const useDeleteCars = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (id: number) => await deleteCarFromLocalStorage(id),
+    mutationFn: async (ids: string[]) => {
+      const cars = await getCarsFromLocalStorage();
+      const filteredCars = cars.filter((car) => !ids.includes(car.id));
+      saveCarsToLocalStorage(filteredCars);
+      return filteredCars;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["cars"],

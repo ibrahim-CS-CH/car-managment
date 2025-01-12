@@ -28,9 +28,7 @@ export const updateCarInLocalStorage = async (
   return updatedCars;
 };
 
-export const deleteCarFromLocalStorage = async (
-  id: number | string
-): Promise<Car[]> => {
+export const deleteCarFromLocalStorage = async (id: string): Promise<Car[]> => {
   const cars = await getCarsFromLocalStorage();
   const filteredCars = cars.filter((car) => car.id !== id);
   saveCarsToLocalStorage(filteredCars);

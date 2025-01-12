@@ -28,7 +28,7 @@ type EditCarProps = {
 export default function EditCar({ open, car, onClose, refetch }: EditCarProps) {
   const {
     control,
-    formState: { errors, dirtyFields, isValid },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm<CarSchemaType>({
     mode: "onChange",
@@ -70,8 +70,6 @@ export default function EditCar({ open, car, onClose, refetch }: EditCarProps) {
       }
     }
   };
-
-  console.log("dirtyFields| ", dirtyFields);
 
   return (
     <Dialog open={open} onClose={onClose}>
