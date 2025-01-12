@@ -59,7 +59,7 @@ export function Component() {
               name: "carModel",
             }}
             textFieldProps={{
-              label: "carModel",
+              label: "Car model",
               disabled: isPending,
               sx: { width: "100%" },
             }}
@@ -98,6 +98,7 @@ export function Component() {
               <MuiXDatePicker
                 {...field}
                 views={["year"]}
+                label="Manufacture date"
                 maxDate={dayjs().add(2, "year")}
                 value={field.value ? dayjs(field.value) : null}
                 onChange={(newValue) =>
