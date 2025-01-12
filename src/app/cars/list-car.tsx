@@ -81,6 +81,7 @@ export function Component() {
           p: 2,
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
         }}>
         <Typography variant="h4">Cars List</Typography>
         <Link to={appRoutes.car.add}>Add car</Link>

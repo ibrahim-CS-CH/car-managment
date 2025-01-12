@@ -20,7 +20,7 @@ export default function App() {
                 element: <RootLayout />,
                 children: [
                   {
-                    path: "",
+                    path: appRoutesDefinition.root,
                     element: <Navigate to={appRoutesDefinition.cars.root} />,
                   },
                   carsConfig.routes,
