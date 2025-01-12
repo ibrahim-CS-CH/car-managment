@@ -1,18 +1,7 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, TextField, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,21 +9,21 @@ import { toast } from "sonner";
 import { appRoutes } from "@/constants/app-routes";
 import { useCars, useDeleteCars } from "@/lib/react-query/car-query";
 import CarItem from "./components/car-item";
-import EditCar from "./components/edit-car";
 import DeleteConfimation from "./components/delete-confimation";
+import EditCar from "./components/edit-car";
 
 export function Component() {
   const [orderBy, setOrderBy] = useState<"asc" | "desc">("desc");
-  const { data, isLoading, isError, refetch } = useCars({
-    orderBy: orderBy,
-  });
-
-  const { mutate: deleteCars } = useDeleteCars();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [open, setOpen] = useState(false);
   const [carEdit, setCarEdit] = useState<Car | undefined>(undefined);
   const [selectedCars, setSelectedCars] = useState<string[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const { data, isLoading, isError, refetch } = useCars({
+    orderBy: orderBy,
+  });
+  const { mutate: deleteCars } = useDeleteCars();
 
   const filteredCars = useMemo(() => {
     return data?.filter((car) =>

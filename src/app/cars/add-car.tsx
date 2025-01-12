@@ -4,14 +4,14 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import { carResolver, CarSchemaType } from "./car.schema";
-import CustomCard from "../../components/CustomCard";
-import CustomTextField from "../../components/CustomTextFieldX";
-import MuiXDatePicker from "../../components/MuiXDatePicker";
-import MySelect from "../../components/MySelect";
-import Spacing from "../../components/Spacing";
-import { useAddCar } from "@/lib/react-query/car-query";
+import CustomCard from "@/components/CustomCard";
+import CustomTextField from "@/components/CustomTextFieldX";
+import MuiXDatePicker from "@/components/MuiXDatePicker";
+import MySelect from "@/components/MySelect";
+import Spacing from "@/components/Spacing";
 import { appRoutes } from "@/constants/app-routes";
+import { useAddCar } from "@/lib/react-query/car-query";
+import { carResolver, CarSchemaType } from "./car.schema";
 
 export function Component() {
   const navigate = useNavigate();
